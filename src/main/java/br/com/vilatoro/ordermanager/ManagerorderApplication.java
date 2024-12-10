@@ -1,4 +1,4 @@
-package br.com.vilatoro.managerorder;
+package br.com.vilatoro.ordermanager;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

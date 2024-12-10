@@ -1,0 +1,70 @@
+#debug: true
+
+info:
+  app:
+    name: Order Manager
+spring:
+  application:
+    name: ordermanager-api
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: default
+  main:
+    allow-bean-definition-overriding: true
+  jpa:
+    showSql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+        show_sql: true
+        id.new_generator_mappings: false
+        hibernate.id.optimizer.pooled.preferred: none
+        temp:
+          use_jdbc_metadata_defaults: false
+    hibernate:
+      ddl-auto: none
+  liquibase:
+    contexts: default
+    change-log: classpath:db/changelog/master.xml
+    parameters:
+      tablespace_index: ''
+  mvc:
+    locale: pt_BR
+  batch:
+    job:
+      enabled: false
+  zipkin:
+    enabled: false
+server:
+  port: 8082
+logging:
+  file:
+    name: logs/${spring.application.name}.log
+  level:
+    root: INFO
+  pattern:
+    level: "%5p [${spring.zipkin.service.name:${spring.application.name:}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}] [%X{LOG_TENANT_ID:-no_tenant}]"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+    prometheus:
+      enabled: true
+    logfile:
+      enabled: true
+  health:
+    db:
+      enabled: false
+    rabbit:
+      enabled: false
+    elasticsearch:
+      enabled: false
+eureka:
+  client:
+    enabled: false

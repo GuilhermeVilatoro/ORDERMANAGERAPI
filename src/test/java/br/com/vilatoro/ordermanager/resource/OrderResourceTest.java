@@ -1,6 +1,7 @@
 package br.com.vilatoro.ordermanager.resource;
 
 import br.com.vilatoro.ordermanager.domain.OrderEntity;
+import br.com.vilatoro.ordermanager.domain.ProductEntity;
 import br.com.vilatoro.ordermanager.enums.OrderStatus;
 import br.com.vilatoro.ordermanager.service.OrderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,9 +37,14 @@ public class OrderResourceTest {
     void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(orderResource).build();
 
+        var product = new ProductEntity();
+        product.setId(1L);
+        product.setPreco(10.0);
+
         order = new OrderEntity();
         order.setId(1L);
         order.setStatus(OrderStatus.PENDENTE);
+        order.setProdutos(Collections.singletonList(product));
     }
 
     @Test

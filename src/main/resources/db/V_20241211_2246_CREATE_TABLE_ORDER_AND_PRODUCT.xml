@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="1-create-order-table" author="guilherme.vilatoro">
+        <preConditions onFail="MARK_RAN" onFailMessage="A tabela orderservice já existe">
+            <not>
+                <tableExists tableName="orderservice"/>
+            </not>
+        </preConditions>
+        <createTable tableName="orderservice">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="total" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2-create-product-table" author="guilherme.vilatoro">
+        <preConditions onFail="MARK_RAN" onFailMessage="A tabela product já existe">
+            <not>
+                <tableExists tableName="product"/>
+            </not>
+        </preConditions>
+        <createTable tableName="product">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="produto" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="preco" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3-create-order-product-relationship" author="guilherme.vilatoro">
+        <preConditions onFail="MARK_RAN" onFailMessage="A tabela order_product já existe">
+            <not>
+                <tableExists tableName="order_product"/>
+            </not>
+        </preConditions>
+        <createTable tableName="order_product">
+            <column name="order_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="order_product"
+                                 baseColumnNames="order_id"
+                                 constraintName="fk_order_product_order"
+                                 referencedTableName="orderservice"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="order_product"
+                                 baseColumnNames="product_id"
+                                 constraintName="fk_order_product_product"
+                                 referencedTableName="product"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

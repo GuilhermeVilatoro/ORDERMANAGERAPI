@@ -168,6 +168,7 @@
     <property name="payload" value="text" dbms="postgresql"/>
     <property name="payload" value="clob" dbms="oracle,h2"/>
 
-    <includeAll path="changes" relativeToChangelogFile="true"/>
+    <include file="db/V_20241211_2246_CREATE_TABLE_ORDER_AND_PRODUCT.xml"/>
 
+    <includeAll path="changes" relativeToChangelogFile="true"/>
 </databaseChangeLog>

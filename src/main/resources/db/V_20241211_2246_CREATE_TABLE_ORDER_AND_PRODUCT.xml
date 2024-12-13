@@ -10,13 +10,16 @@
             </not>
         </preConditions>
         <createTable tableName="orderservice">
-            <column name="id" type="BIGINT" autoIncrement="true">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="total" type="DOUBLE">
                 <constraints nullable="false"/>
             </column>
-            <column name="status" type="VARCHAR(255)">
+            <column name="status" type="${varchar_255}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="versao" type="${number_10}">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -29,10 +32,10 @@
             </not>
         </preConditions>
         <createTable tableName="product">
-            <column name="id" type="BIGINT" autoIncrement="true">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="produto" type="VARCHAR(255)">
+            <column name="produto" type="${varchar_255}">
                 <constraints nullable="false"/>
             </column>
             <column name="preco" type="DOUBLE">
@@ -48,10 +51,10 @@
             </not>
         </preConditions>
         <createTable tableName="order_product">
-            <column name="order_id" type="BIGINT">
+            <column name="order_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="product_id" type="BIGINT">
+            <column name="product_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
         </createTable>

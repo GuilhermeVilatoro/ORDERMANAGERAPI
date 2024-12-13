@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -31,4 +32,7 @@ public class OrderEntity {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+
+    @Version
+    private Integer versao;
 }

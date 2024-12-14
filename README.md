@@ -71,6 +71,8 @@ Criar um serviço REST responsável por gerenciar pedidos recebidos de um sistem
 
 ### **Testes de Carga**
 - Testes executados com **JMeter** para garantir que o sistema suporte grandes volumes de pedidos sem degradação no desempenho.
+  - **JMETER RESULT 150000 requissições de ORDER** disponível no arquivo:  
+    `jmeter_summary_volumetry_150000.csv`.
 
 ---
 

@@ -1,54 +1,86 @@
-# SpringBootApiCrudPessoa
+# **SpringBootApiGerenciamentoPedidos**
 
-# API REST SPRING BOOT PARA CADASTRAR PESSOAS e SEUS CONTATOS
+## **API REST SPRING BOOT PARA GERENCIAR PEDIDOS E INTEGRAÇÃO EXTERNA**
 
-# Sistema criado para atender as seguintes necessidades:
+---
 
-### Objetivo
+### **Objetivo**
 
-Criar uma API Rest de um cadastro de Pessoas, utilizando Spring Boot e Java
+Criar um serviço REST responsável por gerenciar pedidos recebidos de um sistema externo (**Produto Externo A**) e enviá-los a outro sistema externo (**Produto Externo B**) após o processamento.
 
-### Requisitos:
+---
 
-* Possuir ao menos os endpoints: GET(Buscar uma única Pessoa), GET (Busca paginada opção de filtro para retornar várias pessoas), POST, PUT, DELETE
-* O cadastro de pessoa deve ter os campos: Id, Nome, CPF, Data de nascimento.
-* A pessoa deve possuir uma lista de contatos (relacionamento um para muitos) com os campos: Id, Nome, Telefone e Email.
-* Os dados devem ser persistidos utilizando um banco de dados relacional.
+## **Requisitos**
 
-### Validações:
+### **Funcionalidades Implementadas:**
 
-* Todos os campos são obrigatórios, tanto da pessoa como do contato
-* A Pessoa deve possuir ao menos um contato
-* O CPF deve ser um CPF válido
-* A Data de nascimento não pode ser uma data futura
-* Validar sintaxe do email do contato
+- **POST `/api/orders`**  
+  Receber e armazenar um pedido enviado pelo sistema **Produto Externo A**.
 
-### Requisitos técnicos:
+- **GET `/api/orders`**  
+  Listar todos os pedidos processados, com suporte a **filtro** e **paginação**.
 
-* Deverão ser criados testes unitários
-* Publicar o código em repositório público
+---
 
-### É opcional e será um diferencial:
+## **Detalhes Técnicos**
 
-* Publicar a aplicação na internet utilizando algum provedor, para que possa ser acessado sem necessidade de rodar o projeto local
-### Foi usado o provedor HEROKU para publicar a API.
+### **Concorrência e Controle de Dados Duplicados**
+- Implementado **controle de concorrência** usando **Optimistic Locking** através da anotação `@Version` do JPA.
+- Tratamento para evitar **pedidos duplicados** baseado no identificador único dos pedidos.
 
-## Informações para teste da API:
+### **Desempenho e Disponibilidade**
+- Utilizado **@Cacheable** do Spring Framework para **cachear os pedidos** e garantir maior desempenho e disponibilidade do serviço, principalmente sob alta volumetria.
 
-###  1) Postman
-* Os testes também poderão ser realizados via Postman com as suas respectivas rotas.
+### **Testes de Desempenho**
+- Realizados testes de **carga com JMeter** para avaliar o comportamento do sistema e verificar se o banco de dados escolhido pode lidar com a volumetria esperada sem gargalos.
 
-###  4) HEROKU
-* https://spring-boot-crud-pessoa-app.herokuapp.com/
+---
 
-# Tecnologias usadas
+## **Tecnologias Usadas**
 
-* Spring Boot
-* Spring Data
-* Maven
-* JPA
-* Injeção de dependências
-* Testes unitários com JUNIT
-* Banco de dados H2 e POSTGRESSQL
-* REST
-* HEROKU
+- **Java 17**
+- **Spring Boot** (Web, Data JPA, Cache)
+- **Liquibase** (versionamento do banco de dados)
+- **Gradle** (gerenciamento de dependências)
+- **PostgreSQL** (banco de dados)
+- **H2** (banco em memória para testes)
+- **JMeter** (testes de carga)
+- **JUnit** (testes unitários)
+- **Postman** (testes manuais dos endpoints)
+
+---
+
+## **Validações Implementadas**
+
+- **Pedidos Duplicados**: Tratamento para evitar armazenamento de pedidos repetidos.
+- **Concorrência**: Controle com Optimistic Lock para evitar inconsistência em ambientes multi-thread.
+- **Cache**: Aplicado cache para otimizar a leitura dos dados e reduzir a carga no banco.
+- **Alta Volumetria**: Testes de carga validados para garantir a performance do sistema.
+
+---
+
+## **Testes**
+
+### **Testes Funcionais**
+- Realizados com **Postman** para validar os endpoints.  
+  - **Collection do Postman** disponível no arquivo:  
+    `ORDERMANAGER.postman_collection.json`.
+
+### **Testes Unitários**
+- Implementados com **JUnit**.
+
+### **Testes de Carga**
+- Testes executados com **JMeter** para garantir que o sistema suporte grandes volumes de pedidos sem degradação no desempenho.
+
+---
+
+## **Melhorias Futuras**
+
+- Implementar autenticação com **JWT**.
+- Deploy em ambiente cloud como **Heroku** ou **AWS**.
+- Adicionar métricas de monitoramento com **Spring Actuator**.
+
+---
+
+## **Contato**
+Caso tenha dúvidas ou sugestões, entre em contato comigo através deste repositório! 😊

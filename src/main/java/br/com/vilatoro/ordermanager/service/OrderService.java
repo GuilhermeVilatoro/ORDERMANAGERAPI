@@ -34,15 +34,24 @@ public class OrderService {
             throw new DuplicateOrderException("Pedido duplicado!");
         }
 
-        order.setTotal(order.getProdutos().stream()
+        OrderEntity orderToSave = new OrderEntity();
+
+        if (existingOrder.isPresent()) {
+            orderToSave = existingOrder.get();
+        } else {
+            orderToSave.setStatus(order.getStatus());
+            orderToSave.setProducts(order.getProducts());
+        }
+
+        orderToSave.setTotal(order.getProducts().stream()
                         .filter(product -> Objects.nonNull(product.getPreco()))
                 .mapToDouble(ProductEntity::getPreco)
                 .sum());
 
-        order.setStatus(OrderStatus.PROCESSADO);
+        orderToSave.setStatus(OrderStatus.PROCESSADO);
 
         try {
-            return orderRepository.save(order);
+            return orderRepository.save(orderToSave);
         } catch (OptimisticLockException e) {
             log.error(MSG_CONCORRENCIA);
             throw new OrderEmProcessamentoException(MSG_CONCORRENCIA);

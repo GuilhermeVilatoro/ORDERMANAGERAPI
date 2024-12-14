@@ -45,12 +45,12 @@
     </changeSet>
 
     <changeSet id="3-create-order-product-relationship" author="guilherme.vilatoro">
-        <preConditions onFail="MARK_RAN" onFailMessage="A tabela order_product já existe">
+        <preConditions onFail="MARK_RAN" onFailMessage="A tabela orderservice_product já existe">
             <not>
                 <tableExists tableName="order_product"/>
             </not>
         </preConditions>
-        <createTable tableName="order_product">
+        <createTable tableName="orderservice_product">
             <column name="order_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
@@ -59,16 +59,52 @@
             </column>
         </createTable>
 
-        <addForeignKeyConstraint baseTableName="order_product"
+        <addForeignKeyConstraint baseTableName="orderservice_product"
                                  baseColumnNames="order_id"
                                  constraintName="fk_order_product_order"
                                  referencedTableName="orderservice"
                                  referencedColumnNames="id"/>
-        <addForeignKeyConstraint baseTableName="order_product"
+        <addForeignKeyConstraint baseTableName="orderservice_product"
                                  baseColumnNames="product_id"
                                  constraintName="fk_order_product_product"
                                  referencedTableName="product"
                                  referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="4-populate-spaten-products" author="guilherme.vilatoro">
+        <preConditions onFail="MARK_RAN"
+                       onFailMessage="A produto de identificador '1' já existe!">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM PRODUCT WHERE ID = 1;</sqlCheck>
+        </preConditions>
+        <insert tableName="product">
+            <column name="id" valueNumeric="1"/>
+            <column name="produto" value="SPATEN"/>
+            <column name="preco" valueNumeric="4"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="5-populate-brahma-duplo-malte-products" author="guilherme.vilatoro">
+        <preConditions onFail="MARK_RAN"
+                       onFailMessage="A produto de identificador '2' já existe!">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM PRODUCT WHERE ID = 2;</sqlCheck>
+        </preConditions>
+        <insert tableName="product">
+            <column name="id" valueNumeric="2"/>
+            <column name="produto" value="BRAHMA DUPLO MALTE"/>
+            <column name="preco" valueNumeric="3.50"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="6-populate-original-products" author="guilherme.vilatoro">
+        <preConditions onFail="MARK_RAN"
+                       onFailMessage="A produto de identificador '3' já existe!">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM PRODUCT WHERE ID = 3;</sqlCheck>
+        </preConditions>
+        <insert tableName="product">
+            <column name="id" valueNumeric="3"/>
+            <column name="produto" value="ANTARCTICA ORIGINAL"/>
+            <column name="preco" valueNumeric="3"/>
+        </insert>
     </changeSet>
 
 </databaseChangeLog>

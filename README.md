@@ -79,8 +79,3 @@ Criar um serviço REST responsável por gerenciar pedidos recebidos de um sistem
 - Implementar autenticação com **JWT**.
 - Deploy em ambiente cloud como **Heroku** ou **AWS**.
 - Adicionar métricas de monitoramento com **Spring Actuator**.
-
----
-
-## **Contato**
-Caso tenha dúvidas ou sugestões, entre em contato comigo através deste repositório! 😊

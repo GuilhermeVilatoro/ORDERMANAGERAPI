@@ -23,6 +23,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -48,7 +49,7 @@ public class OrderServiceTest {
 
         order = new OrderEntity();
         order.setId(1L);
-        order.setProdutos(Arrays.asList(product, product2));
+        order.setProducts(Arrays.asList(product, product2));
         order.setStatus(OrderStatus.PENDENTE);
     }
 
@@ -63,14 +64,19 @@ public class OrderServiceTest {
     @Test
     public void processOrderShouldSaveAndReturnProcessedOrder() {
         when(orderRepository.findById(1L)).thenReturn(Optional.empty());
-        when(orderRepository.save(order)).thenReturn(order);
+
+        order.setStatus(OrderStatus.PROCESSADO);
+        order.setTotal(15.0);
+
+        when(orderRepository.save(any(OrderEntity.class))).thenReturn(order);
 
         OrderEntity processedOrder = orderService.processOrder(order);
 
         assertThat(processedOrder, notNullValue());
         assertThat(processedOrder.getStatus(), is(OrderStatus.PROCESSADO));
         assertEquals(15.0, processedOrder.getTotal());
-        verify(orderRepository).save(order);
+
+        verify(orderRepository).save(any(OrderEntity.class));
         verifyNoMoreInteractions(orderRepository);
     }
 

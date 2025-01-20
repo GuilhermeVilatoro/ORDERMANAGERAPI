@@ -44,7 +44,7 @@ public class OrderResourceTest {
         order = new OrderEntity();
         order.setId(1L);
         order.setStatus(OrderStatus.PENDENTE);
-        order.setProdutos(Collections.singletonList(product));
+        order.setProducts(Collections.singletonList(product));
     }
 
     @Test
